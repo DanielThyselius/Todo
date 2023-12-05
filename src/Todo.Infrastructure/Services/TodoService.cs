@@ -22,7 +22,6 @@ namespace Todo.Infrastructure.Services
         public async Task<IEnumerable<TodoItem>> GetAllTodosAsync()
         {
             var todos = await _context.TodoItems.ToListAsync();
-            todos[0].Tags = new string[] { "boring", "important", "slow", "new" };
             return todos;
         }
 
