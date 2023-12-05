@@ -1,4 +1,5 @@
-﻿using Todo.Core.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Todo.Core.Interfaces;
 using Todo.Core.Models;
 using Todo.Infrastructure.Data;
 
@@ -18,9 +19,11 @@ namespace Todo.Infrastructure.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<TodoItem>> GetAllTodosAsync()
+        public async Task<IEnumerable<TodoItem>> GetAllTodosAsync()
         {
-            throw new NotImplementedException();
+            var todos = await _context.TodoItems.ToListAsync();
+            todos[0].Tags = new string[] { "boring", "important", "slow", "new" };
+            return todos;
         }
 
         public Task<int> GetRemaining()

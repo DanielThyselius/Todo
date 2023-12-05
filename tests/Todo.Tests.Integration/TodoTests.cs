@@ -25,7 +25,17 @@ namespace Todo.Tests.Integration
         [Fact]
         public async Task GettingAllTodosReturnsCorrectData()
         {
-            // TODO: Validate response data
+            var expected = """
+                [{"name":"Tvätta","descrption":"...","done":false,"id":1},{"name":"Städa","descrption":"...","done":false,"id":2},{"name":"Diska","descrption":"...","done":false,"id":3}]
+                """;
+            var response = await _httpClient.GetAsync("api/todos");
+            var actual = await response.Content.ReadAsStringAsync();
+
+            Assert.Equal(expected, actual);
+
+            // This is a bit brittle and could be made more clever
+            // One approach would be to validate that we can deserialise the json back into a list of TodoItems (or custom test-model)
+            // We could then also validate values on these objects
         }
     }
 }

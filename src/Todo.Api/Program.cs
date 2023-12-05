@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using Todo.Core.Interfaces;
 using Todo.Infrastructure.Data;
 using Todo.Infrastructure.Services;
@@ -31,8 +30,23 @@ public class Program
         }
 
 
+        using (var scope = app.Services.CreateScope())
+        {
+            var services = scope.ServiceProvider;
+
+            var context = services.GetRequiredService<TodoDbContext>();
+            context.Database.EnsureCreated();
+        }
+
+
         app.MapHealthChecks("api/healthcheck");
-        app.MapGet("/", () => "Hello World!");
+        
+        app.MapGet("api/todos", async (ITodoService service) =>
+        {
+            var todos = await service.GetAllTodosAsync();
+            return todos;
+        })
+        .WithName("GetTodos");
 
         app.Run();
     }

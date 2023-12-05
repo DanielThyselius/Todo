@@ -15,6 +15,7 @@ public class TodoDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<TodoItem>().Ignore(item => item.Tags);
 
         modelBuilder.Entity<TodoItem>().HasData(
             new TodoItem("Tvätta") { Id = 1 },
