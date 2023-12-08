@@ -18,7 +18,8 @@ public class TodoDbContext : DbContext
 
         modelBuilder.Entity<TodoItem>().HasData(
             new TodoItem("Tvätta") { Id = 1 },
-            new TodoItem("Städa") { Id = 2 },
-            new TodoItem("Diska") { Id = 3 });
+            new TodoItem("!Städa") { Id = 2 },
+            new TodoItem("Diska!") { Id = 3 },
+            new TodoItem("?Ring mamma") { Id = 4 });
     }
 }

@@ -14,15 +14,19 @@ namespace Todo.Infrastructure.Services
             _context = context;
         }
 
-        public Task AddTodo(TodoItem todo)
+        public async Task<bool> AddTodo(TodoItem todo)
         {
-            throw new NotImplementedException();
+            if (await TodoExists(todo.Name))
+                return false;
+
+            await _context.TodoItems.AddAsync(todo);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<IEnumerable<TodoItem>> GetAllTodosAsync()
         {
-            var todos = await _context.TodoItems.ToListAsync();
-            return todos;
+            return await _context.TodoItems.ToListAsync();
         }
 
         public Task<int> GetRemaining()
@@ -34,5 +38,17 @@ namespace Todo.Infrastructure.Services
         {
             throw new NotImplementedException();
         }
+
+        public async Task<bool> TodoExists(string name)
+        {
+            name = name.Clean();
+            return await _context.TodoItems
+                .AnyAsync(x => x.Name.Clean() == name);
+        }
+    }
+    internal static class StringExtensions
+    {
+        internal static string Clean(this string name) 
+            => name.ToLower().Trim('!', '?', '.', ' ');
     }
 }

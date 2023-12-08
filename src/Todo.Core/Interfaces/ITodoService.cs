@@ -10,7 +10,8 @@ namespace Todo.Core.Interfaces
     {
         Task<IEnumerable<Models.TodoItem>> GetAllTodosAsync();
         Models.TodoItem GetTodoByName(string name);
-        Task AddTodo(Models.TodoItem todo);
+        Task<bool> AddTodo(Models.TodoItem todo);
+        Task<bool> TodoExists(string name);
         Task<int> GetRemaining();
     }
 }
