@@ -38,8 +38,10 @@ public class Program
             context.Database.EnsureCreated();
         }
 
-
         app.MapHealthChecks("api/healthcheck");
+
+        app.MapGet("/", async () 
+            => "Welcome to the ToDo application for doing amazing things!");
         
         app.MapGet("api/todos", async (ITodoService service) =>
         {
